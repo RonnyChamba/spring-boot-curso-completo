@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="layout/fragment::head"></div>
+<body>
+
+	<!-- Navbar -->
+	<div th:replace="layout/fragment::navbar(false)"></div>
+	<div class="container-fluid">
+
+		<div class="card">
+
+			<div class="card-header">
+				<h1 th:text="${title}" class="fs-2 card-title text-primary"></h1>
+			</div>
+
+			<div class="card-body">
+
+				<div class="row justify-content-center">
+
+					<div class="col-sm-5" th:object="${cliente}" th:classappend="${#fields.hasErrors('*') ?  'alert alert-danger' : ''}">
+						<!-- Mensajes de errores agrupados -->
+							<ul th:if="${#fields.hasErrors('*')}">
+								<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+
+							</ul>
+
+					</div>
+					
+					 <div class="w-100"></div>
+					 
+					<div class="col-sm-5 border border-primary p-4">
+						<form th:action="@{/form}" th:object="${cliente}" th:method="post"
+							class="">
+							<!-- 	<input type="hidden" class="form-control" id="id" th:field="*{id}"> -->
+
+							<div class="mb-3">
+								<label for="nombre" class="form-label">Nombre </label> <input
+									type="text" class="form-control" id="nombre"
+									th:field="*{nombre}"
+									th:errorclass="'form-control alert-danger'"> <small
+									class="form-text text-danger"
+									th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+							</div>
+
+							<div class="mb-3">
+								<label for="apellido" class="form-label">Apellido </label> <input
+									type="text" th:field="*{apellido}" class="form-control"
+									id="apellido" th:errorclass="'form-control alert-danger'">
+								<small class="form-text text-danger"
+									th:if="${#fields.hasErrors('apellido')}"
+									th:errors="*{apellido}"></small>
+							</div>
+
+							<div class="mb-3">
+								<label for="email" class="form-label">Email</label> <input
+									type="email" class="form-control" id="email"
+									th:field="*{email}" th:errorclass="'form-control alert-danger'">
+								<small class="form-text text-danger"
+									th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+							</div>
+
+							<div class="mb-3">
+								<label for="fecha" class="form-label">Fecha</label> <input
+									type="text" class="form-control" id="fecha"
+									th:field="*{createAt}"
+									th:errorclass="'form-control alert-danger'"> <small
+									class="form-text text-danger"
+									th:if="${#fields.hasErrors('createAt')}"
+									th:errors="*{createAt}"></small>
+							</div>
+
+
+							<div class="mb-3">
+								<button type="submit" class="btn btn-primary w-100">Enviar</button>
+							</div>
+
+
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="layout/fragment::footer"></div>
+</body>
+</html>
