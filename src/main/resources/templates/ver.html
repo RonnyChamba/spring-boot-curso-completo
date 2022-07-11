@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="layout/fragment::head"></div>
+<body>
+
+	<!-- Navbar -->
+	<div th:replace="layout/fragment::navbar(true)"></div>
+	<!-- Content-main -->
+	<div class="container-fluid py-3">
+
+		<div class="card">
+
+			<div class="card-header">
+				<h1 th:text="${title}"
+					class="text-primary text-start card-title fs-2"></h1>
+			</div>
+
+			<div class="card-body">
+
+				<div class="d-flex align-items-start">
+
+					<img th:alt="${cliente.foto}" style="max-width: 25%" 
+						th:src="@{/uploads/{foto}(foto=${cliente.foto})}"
+						class="rounded img-thumbnail d-block me-3">
+
+
+					<ul class="list-group flex-grow-1">
+						<li class="list-group-item">[[${cliente.nombre}]]</li>
+						<li class="list-group-item">[[${cliente.apellido}]]</li>
+						<li class="list-group-item">[[${cliente.email}]]</li>
+						<li class="list-group-item">[[${cliente.createAt}]]</li>
+					</ul>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="layout/fragment::footer"></div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

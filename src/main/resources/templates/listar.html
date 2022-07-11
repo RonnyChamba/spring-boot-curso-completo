@@ -19,7 +19,7 @@
 			<div class="card-body">
 
 				<div class="text-end mb-3">
-					<a th:href="@{/form}" class="btn btn-outline-primary">Nuevo
+					<a th:href="@{/form}" class="btn btn-outline-primary" role ="button">Nuevo
 						cliente</a>
 				</div>
 
@@ -46,7 +46,11 @@
 
 							<tr th:each="item : ${listClientes}">
 
-								<td th:text="${item.id}"></td>
+								<td>
+									<a th:href="@{/ver/{id}(id=${item.id})}" 
+									th:text="${item.id}"  
+									class="btn btn-primary" role ="button"></a>
+								</td>
 								<td th:text="${item.nombre}"></td>
 								<td th:text="${item.apellido}"></td>
 								<td th:text="${item.email}"></td>
