@@ -1,81 +1,94 @@
 package com.curso.spring.data.jpa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name="CLIENTES")
-public class Cliente  implements Serializable{
-	
+@Table(name = "CLIENTES")
+public class Cliente implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotEmpty
 	private String nombre;
-	
+
 	@NotEmpty
 	private String apellido;
-	
-	@NotEmpty 
+
+	@NotEmpty
 	// @Email(regexp = "")
 	private String email;
-	
+
 	/**
-	 * Almacena solo la fecha, puede especificar la hora o 
-	 * los dos mismos
+	 * Almacena solo la fecha, puede especificar la hora o los dos mismos
 	 */
 	@Temporal(TemporalType.DATE)
 	// Especificar el patron que va a permitir procesar.
-	// Por detras tiene un CustomDateEditor que se encarga de convertir el string a una fecha
+	// Por detras tiene un CustomDateEditor que se encarga de convertir el string a
+	// una fecha
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private Date createAt;
-	
-	
+
 	private String foto;
-	
-	
-	public Cliente() {}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Factura> facturas;
+
+	public Cliente() {
+
+		facturas = new ArrayList<>();
+	}
 
 	public Cliente(String nombre, String apellido, String email, Date createAt) {
-		
+
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
 		this.createAt = createAt;
+
+		facturas = new ArrayList<>();
 	}
 
-	
-	
-	/**
-	 * Se llama antes que se persista una entidad
-	 */
-	/*@PrePersist
+	// Se llama antes que se persista una entidad
+
+	@PrePersist
 	public void prePersist() {
-		
+
 		createAt = new Date();
-	}*/
-	
-	
+	}
+
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -115,11 +128,14 @@ public class Cliente  implements Serializable{
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
-	
-	
 
 	public String getFoto() {
 		return foto;
+	}
+
+	public void addFactura(Factura factura) {
+
+		facturas.add(factura);
 	}
 
 	public void setFoto(String foto) {
@@ -151,5 +167,3 @@ public class Cliente  implements Serializable{
 				+ ", createAt=" + createAt + "]";
 	}
 }
-
-
