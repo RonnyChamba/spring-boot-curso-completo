@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="layout/fragment::head"></div>
+<body>
+
+	<!-- Navbar -->
+	<div th:replace="layout/fragment::navbar(false)"></div>
+	<div class="container-fluid">
+
+		<div class="card">
+
+			<div class="card-header">
+				<h3 th:text="${title}" class="card-title text-primary"></h3>
+			</div>
+			
+			<div class="card-body">
+				
+					<div>
+			
+				<a  th:href="@{/ver/{id}(id= ${factura.cliente.id})}" th:text="'Regresar'" class ="btn btn-outline-success mb-3"></a>	
+			</div>
+				<form  th:action="@{/factura/form}"  th:object="${factura}" method ="post">
+				
+				<div class="row-3">
+				
+					<div class="col-md-6 mb-3">
+						<label for="exampleInputEmail1" class="form-label">Cliente</label>
+						<input type="text" class="form-control" th:value="${factura.cliente.nombre}"  disabled="disabled"/>
+					</div>
+				
+					<div class="col-md-6 mb-3">
+						<label for="exampleInputEmail1" class="form-label">Descripción</label>
+						<input type="text" class="form-control" th:field="*{descripcion}" >
+					</div>
+					
+					<div class="col-md-6  mb-3">
+						<label for="observacion" class="form-label">Observación</label>
+						<textarea  th:field ="*{observacion}" class="form-control"></textarea>
+					</div>
+					
+					<div class="col-md-6  mt-5">
+					
+						<button type="submit" class="btn btn-primary">Crear Factura</button>
+					</div>
+					
+	
+			</div>		
+					
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="layout/fragment::footer"></div>
+</body>
+</html>

@@ -29,6 +29,10 @@
 
 					<div th:if="${success ne null}" th:text="${success}"
 						class="alert alert-success"></div>
+						
+					<div th:if="${error ne null}" th:text="${error}"
+						class="alert alert-danger"></div>
+							
 					<table class="table table-striped table-hover">
 						<thead class="table-dark">
 							<tr>
@@ -38,6 +42,7 @@
 								<th>APELLIDO</th>
 								<th>EMAIL</th>
 								<th>FECHA</th>
+								<th>CREAR FACTURA</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -55,6 +60,9 @@
 								<td th:text="${item.apellido}"></td>
 								<td th:text="${item.email}"></td>
 								<td th:text="${item.createAt}"></td>
+								<td>
+									<a th:href="@{/factura/form/{id}(id=${item.id})}" th:text="'Nueva Factura'" class="btn btn-success"></a>
+								</td>
 								<td class="text-end"><a
 									th:href="@{/form/{id}(id=${item.id})}" class="btn btn-warning">Editar</a>
 									<!-- btn-eliminar del boton elminar es utiliza desde javaScript  -->
