@@ -20,7 +20,7 @@
 
 				<div class="d-flex align-items-start">
 
-					<img th:alt="${cliente.foto}" style="max-width: 25%" 
+					<img th:alt="${cliente.foto}" style="max-width: 25%"
 						th:src="@{/uploads/{foto}(foto=${cliente.foto})}"
 						class="rounded img-thumbnail d-block me-3">
 
@@ -35,8 +35,48 @@
 				</div>
 
 			</div>
+			
+			
+			
+			<div  th:if ="${#lists.isEmpty(cliente.facturas)}"   th:text="'El cliente ' + ${cliente.nombre} + ' no tiene facturas'"
+			class ="alert alert-info">
+		
+			</div>
+			
+			<table  th:if ="${not #lists.isEmpty(cliente.facturas)}"   class="table table-bordered">
+			
+				<thead class="table-dark">
+				<tr>
+
+					<th>Id</th>
+					<th>Descripcion</th>
+					<th>Observacion</th>
+					<th>Fecha</th>
+					<th>Total</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+
+				<tr th:each="factura : ${cliente.facturas}">
+
+					<td th:text="${factura.id}"></td>
+					<td th:text="${factura.descripcion}"></td>
+					<td th:text="${factura.observacion}"></td>
+					<td th:text="${factura.createAt}"></td>
+					<td th:text="${factura.total}"></td>
+
+				</tr>
+
+			</tbody>
+
+
+		</table>
 
 		</div>
+
+		
 	</div>
 
 	<!-- Footer -->
