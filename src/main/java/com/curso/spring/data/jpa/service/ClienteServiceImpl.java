@@ -1,5 +1,6 @@
 package com.curso.spring.data.jpa.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.curso.spring.data.jpa.dao.IClienteDao;
+import com.curso.spring.data.jpa.dao.IProductoDAO;
 import com.curso.spring.data.jpa.entity.Cliente;
+import com.curso.spring.data.jpa.entity.Producto;
 
 
 @Service
@@ -18,6 +21,9 @@ public class ClienteServiceImpl  implements IClienteService{
 	
 	@Autowired
 	private IClienteDao clienteRepository;
+	
+	@Autowired
+	private IProductoDAO productoDAO;
 	
 	@Override
 	@Transactional
@@ -49,6 +55,15 @@ public class ClienteServiceImpl  implements IClienteService{
 	public Page<Cliente> findAll(Pageable pageable) {
 		
 		return clienteRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findByNombre(String nombre) {
+			
+	//	return  productoDAO.buscarPorNombre(name);
+		
+		return  productoDAO.buscarPorNombre(nombre);
 	}
 
 }

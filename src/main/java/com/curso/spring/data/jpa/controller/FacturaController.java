@@ -1,5 +1,6 @@
 package com.curso.spring.data.jpa.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.curso.spring.data.jpa.entity.Cliente;
 import com.curso.spring.data.jpa.entity.Factura;
+import com.curso.spring.data.jpa.entity.Producto;
 import com.curso.spring.data.jpa.service.IClienteService;
 
 @Controller
@@ -52,5 +55,16 @@ public class FacturaController {
 		return "factura/form";
 	}
 	
+	
+	
+	@GetMapping(value = "/cargar-productos/{nombre}",   produces =  {"application/json"})
+	public  @ResponseBody List<Producto> buscarProducto (@PathVariable String nombre) {
+		
+		/*
+		 * @ResponseBody, suprime el cargar una vista de thymeleaf, 
+		 * y lo qe hara es transforma la salida en eun json, eso lo poblara dentro del body de la respuesta
+		 */
+		return  clienteService.findByNombre(nombre);
+	}
 
 }

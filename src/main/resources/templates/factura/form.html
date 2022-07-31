@@ -39,6 +39,12 @@
 						<textarea  th:field ="*{observacion}" class="form-control"></textarea>
 					</div>
 					
+					<div class="col-md-6  mb-3">
+						<label for="buscar_producto" class="form-label">Buscar Producto</label>
+						<input type="text" class="form-control" id ="buscar_producto" name="buscar_producto">
+						
+					</div>
+					
 					<div class="col-md-6  mt-5">
 					
 						<button type="submit" class="btn btn-primary">Crear Factura</button>
@@ -53,8 +59,9 @@
 
 		</div>
 	</div>
-
+	
 	<!-- Footer -->
 	<div th:replace="layout/fragment::footer"></div>
+	<script th:replace="factura/js/autocomplete_productos ::javascript"></script>
 </body>
 </html>

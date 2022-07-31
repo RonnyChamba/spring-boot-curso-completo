@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+<script type="text/javascript"  th:fragment ="javascript">
+
+
+// Para verificar que el documento este cargado
+$(document).ready(function() {
+	
+	
+	$("#buscar_producto").autocomplete(
+	{
+		
+		// autoFocus : true,
+		minLength: 1,
+		source : function(request,  response){
+	
+			$.ajax (
+			     {
+			    	 
+			    	 // term es una propieda de request, representa el valor qe se escrbie
+			    	 url: "/factura/cargar-productos/"+ request.term,
+			    	 dataType: "json",
+			    	 method : "GET",
+			    	 // Procesa los datos devuleto desde el servidor
+			    	 success: function (data){
+			    		 // pasaamos los datos obtenidos al autocomplete mediante su objeto response
+			    	
+			    		 response ($.map(data, function(item){	 
+			    			 return  {
+			    				 value : item.id,
+			    				 label: item.nombre,
+			    				 precio: item.precio
+			    			 }
+			    		 }));
+			    		 
+			   
+			    		 
+			    	 }
+			     }		
+
+			)
+			
+		},
+		
+		
+		select : function(event, ui){
+			
+			// mostrar la opcion seleccionada en el text input
+			$("#buscar_producto").val(ui.item.label);
+		console.log(ui.item);
+		return false; // obligatorio devolver false
+			
+		}
+	}
+			
+			
+	);
+	//console.log("hola mundo");
+	
+});
+
+</script>
+</body>
+</html>
