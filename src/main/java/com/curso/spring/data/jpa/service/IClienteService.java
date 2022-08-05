@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.curso.spring.data.jpa.entity.Cliente;
+import com.curso.spring.data.jpa.entity.Factura;
 import com.curso.spring.data.jpa.entity.Producto;
 
 public interface IClienteService {
@@ -21,4 +22,9 @@ public interface IClienteService {
 	Page<Cliente> findAll(Pageable pageable);
 	
 	List<Producto> findByNombre(String name);
+	
+	void saveFactura(Factura factura);
+	
+	Optional<Producto> findProductoById(Long id);
 }
+

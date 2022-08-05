@@ -51,6 +51,12 @@ public class ItemFactura implements Serializable {
 	}
 	
 
+	public Producto getProducto() {
+		return producto;
+	}
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
 	@Override
 	public String toString() {
 		return "ItemFactura [id=" + id + ", cantidad=" + cantidad + "]";
