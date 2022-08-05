@@ -8,6 +8,11 @@
 	<div th:replace="layout/fragment::navbar(false)"></div>
 	<div class="container-fluid">
 
+		<div th:if="${success ne null}" th:text="${success}"
+			class="alert alert-success"></div>
+
+		<div th:if="${info ne null}" th:text="${info}"
+			class="alert alert-info"></div>
 		<div class="card">
 
 			<div class="card-header">
@@ -34,7 +39,11 @@
 
 						<div class="col-md-6 mb-3">
 							<label for="exampleInputEmail1" class="form-label">Descripción</label>
-							<input type="text" class="form-control" th:field="*{descripcion}">
+							<input type="text" class="form-control" th:field="*{descripcion}"
+								th:errorclass="'form-control is-invalid'">
+
+							<div th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}" class="invalid-feedback"></div>
 						</div>
 
 						<div class="col-md-6  mb-3">

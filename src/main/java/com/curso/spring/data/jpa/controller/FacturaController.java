@@ -3,9 +3,12 @@ package com.curso.spring.data.jpa.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,10 +68,11 @@ public class FacturaController {
 	}
 
 	@PostMapping("/form")
-	public String guardar(Factura factura, @RequestParam(name="item_id[]") Long[] itemsPro, 
-			@RequestParam("cantidad[]") Integer[] cantidad, 
+	public String guardar(@Valid Factura factura, BindingResult bindingResult ,  @RequestParam(name="item_id[]", required = false) Long[] itemsPro, 
+			@RequestParam( name="cantidad[]", required = false) Integer[] cantidad, 
 			SessionStatus status,
-			RedirectAttributes flash) {
+			RedirectAttributes flash,
+			Model model) {
 
 		
 		
@@ -78,6 +82,22 @@ public class FacturaController {
 		 * se envia el formulario, esos paramtros se enviaran contenido en un arreglo.
 		 * 
 		 */
+		
+		
+		
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("title", "Crear factura");
+			
+			return "factura/form";
+			
+		}
+		
+		if (itemsPro == null || itemsPro.length <1) {
+			model.addAttribute("title", "Crear factura");
+			model.addAttribute("info", "La factura no puede estar vacia, agrega productos");
+			return "factura/form";
+		}
 		
 		
 		for (int i = 0; i < itemsPro.length; i++) {
