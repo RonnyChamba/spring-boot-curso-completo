@@ -44,12 +44,22 @@ $(document).ready(function() {
 
 				select: function(event, ui) {
 
-					// html() obtiene el contenido del elemento seleccionado
-					let lineaTableProdu = $("#plantillaItemsFactura").html();
 
 					let idPro = ui.item.value;
 					let nombrePro = ui.item.label;
 					let precioPro = ui.item.precio;
+					
+					// Valida si el producto existe
+					if (itemsHelper.productoExist(idPro)) {
+							
+						itemsHelper.incrementeCantidadProdu(idPro, precioPro);
+						return false;
+					}
+
+
+					// html() obtiene el contenido del elemento seleccionado
+					let lineaTableProdu = $("#plantillaItemsFactura").html();
+
 
 
 					// Cambmiamos los parametros por los valores
@@ -77,17 +87,58 @@ $(document).ready(function() {
 	const itemsHelper = {
 		calcularImporte: function(id, precio, cantidad) {
 
-			$("#total_importe_"+id).html(parseInt(precio) * parseInt(cantidad));
+			$("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
+			this.cacularGranTotal();
 
 		},
-		eliminarLineaFactura : function(id){
-			
-			$("#"+id).remove();
-			
+		eliminarLineaFactura: function(id) {
+
+			$("#" + id).remove();
+			this.cacularGranTotal();
+
+		},
+
+		productoExist: function(id) {
+			let existe = false;
+
+			$('input[name^="item_id[]"]').each(function(index, item) {
+
+				if (parseInt(id) == parseInt(item.value)) {
+					existe = true;
+
+				}
+
+
+			});
+			return existe;
+
+
+		},
+		incrementeCantidadProdu: function(id, precio) {
+
+			let cantiddad = $("#cantidad_" + id).val() ? parseInt($("#cantidad_" + id).val()) : 0;
+			$("#cantidad_" + id).val(++cantiddad);
+			this.calcularImporte(id, precio, cantiddad)
+
+
+		},
+		cacularGranTotal: function() {
+
+			let total = 0;
+
+			$('span[id^="total_importe_"]').each(function(index, item) {
+
+				let subtotal = parseInt(item.textContent.trim());
+
+				total += subtotal;
+
+
+			});
+
+			$("#gran_total").html(total);
+
 		}
-
 	}
-
 
 
 	$("#cargarItemProductos").click(function(event) {
@@ -96,20 +147,20 @@ $(document).ready(function() {
 
 			let elementCantidad = event.target;
 
-			let id = elementCantidad.id +"";
+			let id = elementCantidad.id + "";
 			let cantidad = elementCantidad.value;
 			let precioElement = elementCantidad.parentElement.previousElementSibling;
 			let precio = precioElement.textContent.trim();
-			let idNumero = id.substr (id.length-1, id.length);				
-	
+			let idNumero = id.substr(id.length - 1, id.length);
+
 			itemsHelper.calcularImporte(idNumero, precio, cantidad);
 
 		}
-		
+
 		if (event.target.matches("button")) {
 
-				let rowButton = event.target.parentElement.parentElement;
-				itemsHelper.eliminarLineaFactura(rowButton.id);
+			let rowButton = event.target.parentElement.parentElement;
+			itemsHelper.eliminarLineaFactura(rowButton.id);
 
 		}
 
