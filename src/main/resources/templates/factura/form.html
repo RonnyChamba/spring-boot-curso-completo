@@ -13,55 +13,88 @@
 			<div class="card-header">
 				<h3 th:text="${title}" class="card-title text-primary"></h3>
 			</div>
-			
+
 			<div class="card-body">
-				
-					<div>
-			
-				<a  th:href="@{/ver/{id}(id= ${factura.cliente.id})}" th:text="'Regresar'" class ="btn btn-outline-success mb-3"></a>	
-			</div>
-				<form  th:action="@{/factura/form}"  th:object="${factura}" method ="post">
-				
-				<div class="row-3">
-				
-					<div class="col-md-6 mb-3">
-						<label for="exampleInputEmail1" class="form-label">Cliente</label>
-						<input type="text" class="form-control" th:value="${factura.cliente.nombre}"  disabled="disabled"/>
-					</div>
-				
-					<div class="col-md-6 mb-3">
-						<label for="exampleInputEmail1" class="form-label">Descripción</label>
-						<input type="text" class="form-control" th:field="*{descripcion}" >
-					</div>
-					
-					<div class="col-md-6  mb-3">
-						<label for="observacion" class="form-label">Observación</label>
-						<textarea  th:field ="*{observacion}" class="form-control"></textarea>
-					</div>
-					
-					<div class="col-md-6  mb-3">
-						<label for="buscar_producto" class="form-label">Buscar Producto</label>
-						<input type="text" class="form-control" id ="buscar_producto" name="buscar_producto">
+
+				<div>
+
+					<a th:href="@{/ver/{id}(id= ${factura.cliente.id})}"
+						th:text="'Regresar'" class="btn btn-outline-success mb-3"></a>
+				</div>
+				<form th:action="@{/factura/form}" th:object="${factura}"
+					method="post">
+
+					<div class="row-3">
+
+						<div class="col-md-6 mb-3">
+							<label for="exampleInputEmail1" class="form-label">Cliente</label>
+							<input type="text" class="form-control"
+								th:value="${factura.cliente.nombre}" disabled="disabled" />
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label for="exampleInputEmail1" class="form-label">Descripción</label>
+							<input type="text" class="form-control" th:field="*{descripcion}">
+						</div>
+
+						<div class="col-md-6  mb-3">
+							<label for="observacion" class="form-label">Observación</label>
+							<textarea th:field="*{observacion}" class="form-control"></textarea>
+						</div>
+
+						<div class="col-md-6  mb-3">
+							<label for="buscar_producto" class="form-label">Buscar
+								Producto</label> <input type="text" class="form-control"
+								id="buscar_producto" name="buscar_producto">
+
+						</div>
+
+						<div class="col-md-6  mt-5">
+
+							<button type="submit" class="btn btn-primary">Crear
+								Factura</button>
+						</div>
 						
+						<table th:replace="factura/plantilla-items ::itemFactura"></table>
+
+
 					</div>
-					
-					<div class="col-md-6  mt-5">
-					
-						<button type="submit" class="btn btn-primary">Crear Factura</button>
-					</div>
-					
-	
-			</div>		
-					
+
 				</form>
+				
+				<table  id ="cargarItemProductos"  class="table">
+				
+				<thead>
+				
+					<tr>
+					
+						<th>Nombre</th>
+						<th>Precio</th>
+						<th>Cantidad</th>
+						<th>Total</th>
+						<th>Funciones</th>
+					</tr>
+				</thead>
+				
+				
+				<tbody >
+					
+				
+				</tbody>
+				
+				</table>
 
 			</div>
 
 		</div>
 	</div>
-	
+
 	<!-- Footer -->
 	<div th:replace="layout/fragment::footer"></div>
-	<script th:replace="factura/js/autocomplete_productos ::javascript"></script>
+	<!-- <script th:replace="factura/js/autocomplete_productos ::javascript"></script> -->
+	
+		
+
+	<script type="text/javascript" th:src="@{/js/script.js}"></script>
 </body>
 </html>

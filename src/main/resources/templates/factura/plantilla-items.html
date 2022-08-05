@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<table th:fragment="itemFactura" class="d-none">
+		<tbody id="plantillaItemsFactura">
+
+			<tr id="row_{ID}">
+
+				<td class="d-none"><input type="hidden" value="{ID}"
+					name="item_id[]"></td>
+				<td>{NOMBRE}</td>
+				<td>{PRECIO}</td>
+
+				<td><input type="number" value="1" min="1" name="cantidad[]"
+					id="cantidad_{ID}"></td>
+
+				<td><span id="total_importe_{ID}"> 0</span></td>
+
+				<td>
+					<button class="btn btn-danger">Eliminar</button>
+				</td>
+
+
+
+			</tr>
+
+
+		</tbody>
+	</table>
+</body>
+</html>
