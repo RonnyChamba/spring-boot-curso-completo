@@ -48,10 +48,10 @@ $(document).ready(function() {
 					let idPro = ui.item.value;
 					let nombrePro = ui.item.label;
 					let precioPro = ui.item.precio;
-					
+
 					// Valida si el producto existe
 					if (itemsHelper.productoExist(idPro)) {
-							
+
 						itemsHelper.incrementeCantidadProdu(idPro, precioPro);
 						return false;
 					}
@@ -83,6 +83,15 @@ $(document).ready(function() {
 
 	}
 
+	
+	// 	Eliminar la linea modelo
+	$("form").submit(function() {
+
+		$("#plantillaItemsFactura").remove();
+
+		return;
+
+	});
 
 	const itemsHelper = {
 		calcularImporte: function(id, precio, cantidad) {

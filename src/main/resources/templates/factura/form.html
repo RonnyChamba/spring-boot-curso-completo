@@ -54,36 +54,39 @@
 							<button type="submit" class="btn btn-primary">Crear
 								Factura</button>
 						</div>
-						
+
 						<table th:replace="factura/plantilla-items ::itemFactura"></table>
 
 
 					</div>
 
+
+					<table id="cargarItemProductos" class="table">
+
+						<thead>
+
+							<tr>
+
+								<th>Nombre</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+								<th>Total</th>
+								<th>Funciones</th>
+							</tr>
+						</thead>
+
+
+						<tbody>
+
+
+						</tbody>
+
+					</table>
+					<h3>
+						Total: <span id="gran_total" class="btn btn-outline-success">0</span>
+					</h3>
+
 				</form>
-				
-				<table  id ="cargarItemProductos"  class="table">
-				
-				<thead>
-				
-					<tr>
-					
-						<th>Nombre</th>
-						<th>Precio</th>
-						<th>Cantidad</th>
-						<th>Total</th>
-						<th>Funciones</th>
-					</tr>
-				</thead>
-				
-				
-				<tbody >
-					
-				
-				</tbody>
-				
-				</table>
-				<h3> Total: <span id="gran_total" class="btn btn-outline-success">0</span> </h3>
 
 			</div>
 
@@ -93,8 +96,8 @@
 	<!-- Footer -->
 	<div th:replace="layout/fragment::footer"></div>
 	<!-- <script th:replace="factura/js/autocomplete_productos ::javascript"></script> -->
-	
-		
+
+
 
 	<script type="text/javascript" th:src="@{/js/script.js}"></script>
 </body>
