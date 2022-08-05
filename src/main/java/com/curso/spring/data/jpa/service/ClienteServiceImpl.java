@@ -86,4 +86,10 @@ public class ClienteServiceImpl  implements IClienteService{
 		return productoDAO.findById(id);
 	}
 
+	@Override
+	public Optional<Factura> findFacturaById(Long id) {
+	
+		return  facturaRepository.findById(id);
+	}
+
 }

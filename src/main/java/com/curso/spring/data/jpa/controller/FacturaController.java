@@ -33,6 +33,24 @@ public class FacturaController {
 	@Autowired
 	private IClienteService clienteService;
 
+	@GetMapping("/ver/{id}")
+	public String ver(@PathVariable Long id, Model model, RedirectAttributes flash) {
+
+		Optional<Factura> facturOptional = clienteService.findFacturaById(id);
+
+		if (facturOptional.isEmpty()) {
+
+			flash.addFlashAttribute("error", String.format("La factura %s no exíste", id));
+
+			return "redirect:/listar";
+		}
+		
+		Factura factura = facturOptional.get();
+		model.addAttribute("title",  String.format("Factura: %s", factura.getDescripcion()) );
+		model.addAttribute("factura", factura);
+		return "factura/ver";
+	}
+
 	@GetMapping("/form/{clienteId}")
 	public String create(@PathVariable Long clienteId, Model model, RedirectAttributes flash) {
 
@@ -68,38 +86,32 @@ public class FacturaController {
 	}
 
 	@PostMapping("/form")
-	public String guardar(@Valid Factura factura, BindingResult bindingResult ,  @RequestParam(name="item_id[]", required = false) Long[] itemsPro, 
-			@RequestParam( name="cantidad[]", required = false) Integer[] cantidad, 
-			SessionStatus status,
-			RedirectAttributes flash,
-			Model model) {
+	public String guardar(@Valid Factura factura, BindingResult bindingResult,
+			@RequestParam(name = "item_id[]", required = false) Long[] itemsPro,
+			@RequestParam(name = "cantidad[]", required = false) Integer[] cantidad, SessionStatus status,
+			RedirectAttributes flash, Model model) {
 
-		
-		
 		/**
-		 * Observacion sobre los parametros tipo arreglo recibidos 
-		 * Cuando teneemos en un formulario varios input con el mismo valor en su atributo 'name', a lo que
-		 * se envia el formulario, esos paramtros se enviaran contenido en un arreglo.
+		 * Observacion sobre los parametros tipo arreglo recibidos Cuando teneemos en un
+		 * formulario varios input con el mismo valor en su atributo 'name', a lo que se
+		 * envia el formulario, esos paramtros se enviaran contenido en un arreglo.
 		 * 
 		 */
-		
-		
-		
+
 		if (bindingResult.hasErrors()) {
-			
+
 			model.addAttribute("title", "Crear factura");
-			
+
 			return "factura/form";
-			
+
 		}
-		
-		if (itemsPro == null || itemsPro.length <1) {
+
+		if (itemsPro == null || itemsPro.length < 1) {
 			model.addAttribute("title", "Crear factura");
 			model.addAttribute("info", "La factura no puede estar vacia, agrega productos");
 			return "factura/form";
 		}
-		
-		
+
 		for (int i = 0; i < itemsPro.length; i++) {
 
 			Optional<Producto> prodOptional = clienteService.findProductoById(itemsPro[i]);
@@ -109,19 +121,19 @@ public class FacturaController {
 				ItemFactura itemFactura = new ItemFactura();
 				itemFactura.setProducto(prodOptional.get());
 				itemFactura.setCantidad(cantidad[i]);
-				//Agregar a la factura la linea de factura
+				// Agregar a la factura la linea de factura
 				factura.addItem(itemFactura);
 			}
 
 		}
-		// Peristir la factura y sus items 
+		// Peristir la factura y sus items
 		clienteService.saveFactura(factura);
-		
+
 		// Completar la sesion del atributo factura
 		status.setComplete();
 		flash.addFlashAttribute("success", "Factura creada con exíto");
 
-		return "redirect:/ver/"+ factura.getCliente().getId();
+		return "redirect:/ver/" + factura.getCliente().getId();
 	}
 
 }
