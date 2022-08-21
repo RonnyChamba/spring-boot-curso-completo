@@ -87,9 +87,28 @@ public class ClienteServiceImpl  implements IClienteService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<Factura> findFacturaById(Long id) {
 	
 		return  facturaRepository.findById(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFactura(Long id) {
+		facturaRepository.deleteById(id);
+		
+		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Factura> findByIdWithClienteWithItemWithProducto(Long id) {
+		
+		Factura factura = facturaRepository.findByIdWithClienteWithItemWithProducto(id);
+		//return  facturaRepository.findByIdWithClienteWithItemWithProducto(id);
+	
+		return  Optional.ofNullable(factura);
 	}
 
 }

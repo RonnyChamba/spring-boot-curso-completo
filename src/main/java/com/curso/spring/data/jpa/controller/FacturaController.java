@@ -36,7 +36,8 @@ public class FacturaController {
 	@GetMapping("/ver/{id}")
 	public String ver(@PathVariable Long id, Model model, RedirectAttributes flash) {
 
-		Optional<Factura> facturOptional = clienteService.findFacturaById(id);
+		//Optional<Factura> facturOptional = clienteService.findFacturaById(id);
+		Optional<Factura> facturOptional = clienteService.findByIdWithClienteWithItemWithProducto(id);
 
 		if (facturOptional.isEmpty()) {
 
@@ -134,6 +135,25 @@ public class FacturaController {
 		flash.addFlashAttribute("success", "Factura creada con exíto");
 
 		return "redirect:/ver/" + factura.getCliente().getId();
+	}
+	
+	@GetMapping("/eliminar/{id}")
+	public String eliminarFactura(@PathVariable Long id, RedirectAttributes flash) {
+		
+		
+		Optional<Factura> optionalFactura = clienteService.findFacturaById(id);
+		
+		if (!optionalFactura.isEmpty()) {
+			Factura factura = optionalFactura.get();
+			
+			clienteService.deleteFactura(factura.getId());
+			flash.addFlashAttribute("success", "Factura eliminada correctamente");
+			return "redirect:/ver/"+ factura.getCliente().getId();
+			
+		}
+
+		flash.addFlashAttribute("error", "Factura no registrada en la base de datos, no se pudo eliminar");
+		return "redirect:/listar";
 	}
 
 }

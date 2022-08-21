@@ -28,5 +28,11 @@ public interface IClienteService {
 	Optional<Producto> findProductoById(Long id);
 	
 	Optional<Factura> findFacturaById(Long id);
+	
+	Optional<Factura> findByIdWithClienteWithItemWithProducto(Long id);
+	
+	void deleteFactura(Long id);
+	
+	
 }
 
