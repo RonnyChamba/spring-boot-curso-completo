@@ -13,15 +13,19 @@ public class LoginController {
 
 	/**
 	 * Principal es una interface propia de Spring Security
-	 * @param error: parametro que envia automaticamente Spring security, cuando la autenticacion en incorrecta, osea las
-	 * credencias son incorrectas
+	 * 
+	 * @param error:    parametro que envia automaticamente Spring security, cuando
+	 *                  la autenticacion en incorrecta, osea las credencias son
+	 *                  incorrectas
 	 * @param model
 	 * @param principal
 	 * @param flash
 	 * @return
 	 */
 	@GetMapping("/login")
-	public String login(@RequestParam(value = "error" , required = false)  String error, Model model, Principal principal, RedirectAttributes flash) {
+	public String login(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout, Model model, Principal principal,
+			RedirectAttributes flash) {
 
 		if (principal != null) {
 
@@ -29,10 +33,15 @@ public class LoginController {
 			return "redirect:/";
 		}
 		model.addAttribute("title", "Inicio de Sesion");
-		
-		if (error  !=null) {
-			
+
+		if (error != null) {
+
 			model.addAttribute("error", "Usuario o contraseña incorrecto");
+		}
+
+		if (logout != null) {
+
+			model.addAttribute("success", "Sesion cerrada correctamente");
 		}
 		return "login";
 	}

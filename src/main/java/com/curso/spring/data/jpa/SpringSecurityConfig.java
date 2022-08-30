@@ -71,6 +71,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 									// Pagina personaliza para el login
 									.formLogin().loginPage("/login").permitAll()
 									.and()
+									
 									.logout().permitAll();
 									
 									
